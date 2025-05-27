@@ -38,6 +38,11 @@ body, html {
     align-items: flex-end; /* puts sprites at bottom */
 }
 
+/* flippity flip */
+#character-right{
+    transform: rotateY(180deg);
+}
+
 .character-sprite {
     height: 85vh; 
     min-height: 200px; 
