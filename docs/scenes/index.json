@@ -1,0 +1,11 @@
+[
+    {
+        "speaker": null,
+        "dialog": "Press NEXT to Start",
+        "character_left": null,
+        "character_right": null,
+        "background": "images/bg/bg_camp.jpg",
+        "speaking_slot": null,
+        "next_scene": "scenes/html/scene1.html"
+    }
+]

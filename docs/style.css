@@ -1,0 +1,112 @@
+/* fullscreen */
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* nukes the scrollbar */
+    font-family: sans-serif;
+}
+
+/* main game container */
+#game-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+/* background image */
+#background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: background-image 0.5s ease-in-out; /* FADEDTHANAHO 🗣️ FADEDTHANAHO 🗣️ FADEDTHANAHO 🗣️ */
+}
+
+#characters {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end; /* puts sprites at bottom */
+}
+
+.character-sprite {
+    height: 85vh; 
+    min-height: 200px; 
+    max-height: 650px; 
+    max-width: 40%;    
+
+    object-fit: contain; 
+    object-position: center bottom; 
+
+    opacity: 0; 
+    transition: opacity 0.5s ease-in-out, filter 0.5s ease-in-out; 
+}
+
+/* if u aint speaking SIT DOWN */
+.character-sprite.dimmed {
+    filter: brightness(0.5);
+}
+
+/* container for dialog box + speaker chip */
+#dialog-interface {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 1000px;
+    z-index: 10; /* dialog 🔛🔝🗣🔥🔥 */
+}
+
+/* speaker name box */
+#speaker-name {
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #ffc107;
+    /* border: 3px solid #ffc107; */
+    padding: 10px 23px;
+    font-size: 1.2em;
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: -2px;
+    position: relative;
+    /* left: 20px; */
+    visibility: hidden; /* default to hide if no speaker or narrator */
+}
+
+#dialog-box {
+    background-color: rgba(0, 0, 0, 0.8);
+    border: 3px solid #ffc107;
+    color: #ffc107;
+    padding: 20px;
+    min-height: 100px;
+    position: relative;
+}
+
+#dialog-text {
+    margin: 0;
+    padding-right: 120px; /* space for next button */
+    font-size: 1.3em;
+    line-height: 1.5;
+}
+
+#next-button {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    background-color: #ffc107;
+    border: none;
+    color: #000;
+    padding: 10px 20px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+}

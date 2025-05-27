@@ -1,0 +1,31 @@
+[
+    {
+        "speaker": "COMMANDER FABIUS",
+        "dialog": "Hunter, we've received reports that a Rathalos has been running rampant in the Windward Plains, terrorizing the local villagers. On behalf of the Guild, I am assigning you to take it down. Prepare to depart immediately.",
+        "character_left": null,
+        "character_right": "images/ch/ch_fabius.png",
+        "background": "images/bg/bg_camp.jpg"
+    },
+    {
+        "speaker": "Narrator",
+        "dialog": "You leave the base camp, searching for tracks. You start your search in the plains, where you spot a footprint.",
+        "character_left": null,
+        "character_right": null,
+        "background": "images/bg/bg_plains.jpg"
+    },
+    {
+        "speaker": "Narrator",
+        "dialog": "The monster's tracks lead you to the dunes. You can hear its distinctive roar in the distance.",
+        "character_left": null,
+        "character_right": null,
+        "background": "images/bg/bg_dunes.jpg"
+    },
+    {
+        "speaker": "COMMANDER FABIUS",
+        "dialog": "We've found it. Time to get to work.",
+        "character_left": null,
+        "character_right": "images/ch/ch_fabius.png",
+        "background": "images/bg/bg_dunes.jpg",
+        "next_scene": "scenes/html/scene2.html"
+    }
+]

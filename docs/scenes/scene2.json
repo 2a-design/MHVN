@@ -1,0 +1,31 @@
+[
+    {
+        "speaker": "Narrator",
+        "dialog": "You take on the monster in a brutal battle, barely escaping with your life...",
+        "character_left": null,
+        "character_right": null,
+        "background": "images/bg/bg_dunes.jpg"
+    },
+    {
+        "speaker": "COMMANDER FABIUS",
+        "dialog": "Excellent work, Hunter! I haven't seen slaying like that since my time with the Caravan.",
+        "character_left": "images/ch/ch_fabius.png",
+        "character_right": null,
+        "background": "images/bg/bg_dunes.jpg"
+    },
+    {
+        "speaker": "COMMANDER FABIUS",
+        "dialog": "Let's return to base camp and prepare for the next hunt.",
+        "character_left": "images/ch/ch_fabius.png",
+        "character_right": null,
+        "background": "images/bg/bg_dunes.jpg"
+    },
+    {
+        "speaker": "Narrator",
+        "dialog": "You embark on your journey back to the base camp...",
+        "character_left": null,
+        "character_right": null,
+        "background": "images/bg/bg_plains.jpg",
+        "next_scene": "scenes/html/dimming-test.html"
+    }
+]
