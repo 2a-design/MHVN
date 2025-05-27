@@ -19,7 +19,13 @@ $(document).ready(function() {
     // determine which json to load based on the html filename
     function getSceneFile() {
         const currentHtmlPath = window.location.pathname;
-        const pageNameWithExtension = currentHtmlPath.split("/").pop(); 
+        let pageNameWithExtension = currentHtmlPath.split("/").pop(); 
+
+        // should fix github pages for index
+        if (pageNameWithExtension === '') {
+            pageNameWithExtension = 'index.html';
+        }
+
         const sceneName = pageNameWithExtension.replace('.html', ''); 
 
         if (!sceneName) {
@@ -27,11 +33,12 @@ $(document).ready(function() {
             return null;
         }
 
+        // construct path to json file based on html location
         if (currentHtmlPath.includes('/scenes/html/')) {
-            // HTML is in scenes/html/, JSONs are in ../ (which is the scenes/ folder)
+            // for html in scenes/html/, json is in ../ (scenes/ folder)
             return `../${sceneName}.json`;
         } else {
-            // HTML is in root (e.g. index.html), JSONs are in scenes/
+            // for html in root (index.html), json is in scenes/
             return `scenes/${sceneName}.json`;
         }
     }

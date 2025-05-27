@@ -101,7 +101,7 @@
     {
         "speaker": "COMMANDER FABIUS",
         "dialog": "On behalf of the Guild, I am assigning you to take it down. Prepare to depart.",
-        "character_left": "images/ch/ch_alma.png",
+        "character_left": "images/ch/ch_hunter-f-hbg.png",
         "character_right": "images/ch/ch_fabius.png",
         "background": "images/bg/bg_camp.jpg",
         "speaking_slot": "right"
