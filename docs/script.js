@@ -21,11 +21,6 @@ $(document).ready(function() {
         const currentHtmlPath = window.location.pathname;
         let pageNameWithExtension = currentHtmlPath.split("/").pop(); 
 
-        // should fix github pages for index
-        if (pageNameWithExtension === '') {
-            pageNameWithExtension = 'index.html';
-        }
-
         const sceneName = pageNameWithExtension.replace('.html', ''); 
 
         if (!sceneName) {
