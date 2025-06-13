@@ -1,0 +1,41 @@
+{
+  "chapters": [
+    {
+      "id": "scene1",
+      "title": "Chapter 1: First Steps",
+      "jsonFile": "scenes/scene1.json",
+      "htmlFile": "scenes/html/scene1.html"
+    },
+    {
+      "id": "scene3-conclusion",
+      "title": "Chapter 2: Journey's End",
+      "jsonFile": "scenes/scene3-conclusion.json",
+      "htmlFile": "scenes/html/scene3-conclusion.html"
+    },
+    {
+      "id": "minigame",
+      "title": "Minigame: Rathalos Encounter",
+      "htmlFile": "scenes/html/minigame.html"
+    }
+  ],
+  "testScenes": [
+     {
+      "id": "dialog-option-test",
+      "title": "Test: Dialog Options",
+      "jsonFile": "scenes/dialog-option-test.json",
+      "htmlFile": "scenes/html/dialog-option-test.html"
+    },
+    {
+      "id": "dimming-test",
+      "title": "Test: Character Dimming",
+      "jsonFile": "scenes/dimming-test.json",
+      "htmlFile": "scenes/html/dimming-test.html"
+    },
+    {
+      "id": "tracking",
+      "title": "Test: Tracking",
+      "jsonFile": "scenes/tracking.json",
+      "htmlFile": "scenes/html/tracking.html"
+    }
+  ]
+}

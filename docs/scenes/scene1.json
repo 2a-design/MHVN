@@ -1,0 +1,221 @@
+[
+    {
+        "id": "0",
+        "speaker": "COMMANDER FABIUS",
+        "dialog": "Hunter, we've received reports of a large monster running rampant in the Windward Plains.",
+        "character_left": null,
+        "character_right": "images/ch/ch_fabius.png",
+        "background": "images/bg/bg_camp.jpg",
+        "speaking_slot": "right"
+    },
+
+    {
+        "speaker": "COMMANDER FABIUS",
+        "dialog": "The most recent tracks indicate that it may be heading for Kunafa Village.",
+        "character_left": null,
+        "character_right": "images/ch/ch_fabius.png",
+        "background": "images/bg/bg_camp.jpg",
+        "speaking_slot": "right"
+    },
+
+    {
+        "speaker": "ALMA",
+        "dialog": "But the people of Kunafa are pacificts! They have nothing to defend themseleves with!",
+        "character_left": "images/ch/ch_alma.png",
+        "character_right": "images/ch/ch_fabius.png",
+        "background": "images/bg/bg_camp.jpg",
+        "speaking_slot": "left"
+    },
+
+    {
+        "speaker": "COMMANDER FABIUS",
+        "dialog": "Precisely. That's why I'll be dispatching the Avis unit immediately.",
+        "character_left": "images/ch/ch_alma.png",
+        "character_right": "images/ch/ch_fabius.png",
+        "background": "images/bg/bg_camp.jpg",
+        "speaking_slot": "right"
+    },
+
+    {
+        "speaker": "Narrator",
+        "dialog": "Pick a choice",
+        "character_right": "images/ch/ch_fabius.png",
+        "choices": [
+            { "text": "What am I killing?", "target_id": "choice_1A" },
+            { "text": "Have the villagers evacuated?", "target_id": "choice_1B" }
+        ]
+    },
+
+        {
+        "id": "choice_1A",
+        "speaker": "HUNTER",
+        "dialog": "What kind of monster do you need me to kill.",
+        "character_left": "images/ch/ch_hunter-f-hbg.png",
+        "character_right": "images/ch/ch_fabius.png",
+        "background": "images/bg/bg_camp.jpg",
+        "speaking_slot": "left",
+        "target_id": "chunk_01"
+    },
+
+        {
+        "id": "choice_1B",
+        "speaker": "HUNTER",
+        "dialog": "Have we evacuated the people of Kunafa? What about their livestock?",
+        "character_left": "images/ch/ch_hunter-f-hbg.png",
+        "character_right": "images/ch/ch_fabius.png",
+        "background": "images/bg/bg_camp.jpg",
+        "speaking_slot": "left"
+    },
+
+    {
+        "speaker": "COMMANDER FABIUS",
+        "dialog": "The evacuation is currently ongoing. We’ve dispatched Olivia and the Astrum Unit to facilitate.",
+        "character_left": "images/ch/ch_hunter-f-hbg.png",
+        "character_right": "images/ch/ch_fabius.png",
+        "background": "images/bg/bg_camp.jpg",
+        "speaking_slot": "right"
+    },
+
+    {
+        "speaker": "ALMA",
+        "dialog": "They're in good hands then. Olivia's as reliable as they come.",
+        "character_left": "images/ch/ch_alma.png",
+        "character_right": "images/ch/ch_fabius.png",
+        "background": "images/bg/bg_camp.jpg",
+        "speaking_slot": "left"
+    },
+
+    {
+        "speaker": "ALMA",
+        "dialog": "Do we know what kind of monster we’re hunting?",
+        "character_left": "images/ch/ch_alma.png",
+        "character_right": "images/ch/ch_fabius.png",
+        "background": "images/bg/bg_camp.jpg",
+        "speaking_slot": "left",
+        "target_id": "chunk_01"
+    },
+
+
+    {
+        "id": "chunk_01",
+        "speaker": "COMMANDER FABIUS",
+        "dialog": "The ecology team believes it's a flying wyvern, likely of the Rath genus.",
+        "character_left": "images/ch/ch_hunter-f-hbg.png",
+        "character_right": "images/ch/ch_fabius.png",
+        "background": "images/bg/bg_camp.jpg",
+        "speaking_slot": "right"
+    },
+
+    {
+        "speaker": "COMMANDER FABIUS",
+        "dialog": "We sent out a scouting party to sight it, but they were supposed to return an hour ago.",
+        "character_left": "images/ch/ch_hunter-f-hbg.png",
+        "character_right": "images/ch/ch_fabius.png",
+        "background": "images/bg/bg_camp.jpg",
+        "speaking_slot": "right"
+    },
+
+    {
+        "speaker": "HUNTER",
+        "dialog": "Just a Rath shouldn't be able to take out one our scouts.",
+        "character_left": "images/ch/ch_hunter-f-hbg.png",
+        "character_right": "images/ch/ch_fabius.png",
+        "background": "images/bg/bg_camp.jpg",
+        "speaking_slot": "left"
+    },
+
+    {
+        "speaker": "ALMA",
+        "dialog": "Do you think it might be an advanced subspecies?",
+        "character_left": "images/ch/ch_hunter-f-hbg.png",
+        "character_right": "images/ch/ch_alma.png",
+        "background": "images/bg/bg_camp.jpg",
+        "speaking_slot": "right"
+    },
+
+    {
+        "speaker": "HUNTER",
+        "dialog": "Let’s hope not…",
+        "character_left": "images/ch/ch_hunter-f-hbg.png",
+        "character_right": "images/ch/ch_alma.png",
+        "background": "images/bg/bg_camp.jpg",
+        "speaking_slot": "left"
+    },
+
+    {
+        "speaker": "HUNTER",
+        "dialog": "Where was this thing spotted last?",
+        "character_left": "images/ch/ch_hunter-f-hbg.png",
+        "character_right": "images/ch/ch_alma.png",
+        "background": "images/bg/bg_camp.jpg",
+        "speaking_slot": "left"
+    },
+    
+    {
+        "speaker": "COMMANDER FABIUS",
+        "dialog": "The most recent reports of tracks were from the research team stationed at the plains in Sector 1.",
+        "character_left": "images/ch/ch_hunter-f-hbg.png",
+        "character_right": "images/ch/ch_fabius.png",
+        "background": "images/bg/bg_camp.jpg",
+        "speaking_slot": "right"
+    },
+
+    {
+        "speaker": "COMMANDER FABIUS",
+        "dialog": "They should be fresh enough to still pick up a scent",
+        "character_left": "images/ch/ch_hunter-f-hbg.png",
+        "character_right": "images/ch/ch_fabius.png",
+        "background": "images/bg/bg_camp.jpg",
+        "speaking_slot": "right"
+    },
+
+    {
+        "speaker": "ALMA",
+        "dialog": "Then we don’t have time to waste. Let’s get moving.",
+        "character_left": "images/ch/ch_alma.png",
+        "character_right": "images/ch/ch_fabius.png",
+        "background": "images/bg/bg_camp.jpg",
+        "speaking_slot": "left"
+    },
+    
+
+    {
+        "speaker": "COMMANDER FABIUS",
+        "dialog": "On behalf of the Guild, the Avis Unit has been authorized for a hunting expedition.",
+        "character_left": "images/ch/ch_hunter-f-hbg.png",
+        "character_right": "images/ch/ch_fabius.png",
+        "background": "images/bg/bg_camp.jpg",
+        "speaking_slot": "right"
+    },
+
+    {
+        "speaker": "COMMANDER FABIUS",
+        "dialog": "Prepare to depart.",
+        "character_left": "images/ch/ch_hunter-f-hbg.png",
+        "character_right": "images/ch/ch_fabius.png",
+        "background": "images/bg/bg_camp.jpg",
+        "speaking_slot": "right",
+        "next_scene": "scenes/html/tracking.html"
+    },
+
+    {
+        "speaker": "ALMA",
+        "dialog": "I’ve already filed the quest paperwork. Are you ready to go?",
+        "character_right": "images/ch/ch_alma.png",
+        "character_left": "images/ch/ch_hunter-f-hbg.png",
+        "background": "images/bg/bg_camp.jpg",
+        "speaking_slot": "right"
+    },
+
+    {
+        "speaker": "HUNTER",
+        "dialog": "I'm ready to go.",
+        "character_right": "images/ch/ch_alma.png",
+        "character_left": "images/ch/ch_hunter-f-hbg.png",
+        "choices": [
+            { "text": "Let's get going.", "next_scene": "scenes/html/tracking.html" }
+        ]
+    }
+
+    
+]
