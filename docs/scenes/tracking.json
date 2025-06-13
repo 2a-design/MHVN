@@ -19,7 +19,7 @@
         "character_left": null,
         "character_right": "images/ch/ch_alma.png",
         "background": "images/bg/bg_dunes.jpg",
-        "next_scene": "scenes/html/minigame.html",
+        "next_scene": "minigame.html",
         "speaking_slot": "right"
     }
 

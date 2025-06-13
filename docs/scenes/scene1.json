@@ -213,7 +213,7 @@
         "character_right": "images/ch/ch_alma.png",
         "character_left": "images/ch/ch_hunter-f-hbg.png",
         "choices": [
-            { "text": "Let's get going.", "next_scene": "scenes/html/tracking.html" }
+            { "text": "Let's get going.", "next_scene": "tracking.html" }
         ]
     }
 

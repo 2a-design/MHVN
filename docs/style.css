@@ -222,10 +222,15 @@ body, html {
 
 /* --- Title Screen Specific Styles --- */
 #title-screen-container {
-    width: 100%;
-    height: 100%;
-    position: relative; /* Changed from flex to relative for absolute positioning of title-block */
-    /* Removed: display: flex, flex-direction, justify-content, align-items: center */
+    position: fixed; /* Take out of flow, relative to viewport */
+    top: 0;
+    left: 0;
+    width: 100vw;    /* Full viewport width */
+    height: 100vh;   /* Full viewport height */
+    z-index: 0;      /* Base layer for title screen elements */
+    background-color: transparent; /* Ensure no unintended background */
+    /* Removed: width: 100%; height: 100%; position: relative; */
+    /* Removed: display: flex, flex-direction, justify-content, align-items: center (if they were there) */
 }
 
 #title-bg-canvas { /* Style for the Three.js canvas */

@@ -24,7 +24,7 @@
         "dialog": "You lay down in your hammock to rest, finally able to catch your breath after a long hunt.",
         "background": "images/bg/bg_plains.jpg",
         "choices": [
-            { "text": "End", "next_scene": "index.html" }
+            { "text": "End", "next_scene": "../../index.html" }
         ]
     }
 ]
