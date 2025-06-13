@@ -194,8 +194,7 @@
         "character_left": "images/ch/ch_hunter-f-hbg.png",
         "character_right": "images/ch/ch_fabius.png",
         "background": "images/bg/bg_camp.jpg",
-        "speaking_slot": "right",
-        "next_scene": "scenes/html/tracking.html"
+        "speaking_slot": "right"
     },
 
     {
