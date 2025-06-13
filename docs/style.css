@@ -1,21 +1,32 @@
-/* fullscreen */
+/* --- Global Styles & Resets --- */
 body, html {
     margin: 0;
     padding: 0;
     width: 100%;
     height: 100%;
-    overflow: hidden; /* nukes the scrollbar */
-    font-family: sans-serif;
+    overflow: hidden; 
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* 'Inter' font prioritized */
+    background-color: #1a1a1a; 
+    color: #F5F5DC; /* Beige as primary text color */
 }
 
-/* main game container */
-#game-container {
+#viewport-constraint {
+    width: 100%;
+    height: 100%;
+    max-width: 2200px; 
+    margin: 0 auto; 
     position: relative;
+    overflow: hidden; 
+}
+
+/* --- Main Game Container --- */
+#game-container {
+    position: relative; 
     width: 100%;
     height: 100%;
 }
 
-/* background image */
+/* --- Background Image --- */
 #background {
     position: absolute;
     top: 0;
@@ -24,127 +35,500 @@ body, html {
     height: 100%;
     background-size: cover;
     background-position: center;
-    transition: background-image 0.5s ease-in-out; /* FADEDTHANAHO 🗣️ FADEDTHANAHO 🗣️ FADEDTHANAHO 🗣️ */
+    transition: background-image 0.5s ease-in-out; 
 }
 
+/* --- Character Display --- */
 #characters {
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: 100%; 
     display: flex;
-    justify-content: space-between;
-    align-items: flex-end; /* puts sprites at bottom */
-}
-
-/* flippity flip */
-#character-right{
-    transform: rotateY(180deg);
+    justify-content: space-between; 
+    align-items: flex-end; 
+    pointer-events: none; 
 }
 
 .character-sprite {
-    height: 85vh; 
-    min-height: 200px; 
-    max-height: 650px; 
-    max-width: 40%;    
-
-    object-fit: contain; 
-    object-position: center bottom; 
-
+    height: 88vh; 
+    min-height: 200px;
+    max-height: 700px; 
+    max-width: 40%;
+    object-fit: contain;
+    object-position: center bottom;
     opacity: 0; 
-    transition: opacity 0.5s ease-in-out, filter 0.5s ease-in-out; 
+    transition: opacity 0.5s ease-in-out, filter 0.5s ease-in-out;
 }
 
-/* if u aint speaking SIT DOWN */
+#character-right {
+    transform: rotateY(180deg); 
+}
+
+/* Character states: speaking and dimmed with bobbing */
+.character-sprite.speaking {
+    filter: brightness(1); 
+}
+#character-left.speaking {
+    animation: bob-left 0.8s ease-in-out infinite alternate;
+}
+#character-right.speaking {
+    animation: bob-right 0.8s ease-in-out infinite alternate;
+}
+
 .character-sprite.dimmed {
-    filter: brightness(0.5);
+    filter: brightness(0.5); 
 }
 
-/* container for dialog box + speaker chip */
+/* Bobbing animations */
+@keyframes bob-left {
+    0% { transform: translateY(0) rotateY(0deg); }
+    100% { transform: translateY(3px) rotateY(0deg); }
+}
+
+@keyframes bob-right {
+    0% { transform: translateY(0) rotateY(180deg); }
+    100% { transform: translateY(3px) rotateY(180deg); }
+}
+
+
+/* --- Dialog Interface (Transparent Dark Brown & Beige) --- */
+#speaker-name {
+    display: inline-block; 
+    padding: 8px 20px;
+    font-size: 1.2em;
+    font-weight: 700; 
+    position: absolute; /* Changed from relative */
+    bottom: 100%;      /* Positioned above the top edge of #dialog-interface */
+    left: 0px;         /* Aligned to the left edge of #dialog-interface */
+    margin-bottom: 8px;/* Added space between name box and dialog interface */
+    visibility: hidden; 
+    border-radius: 5px; /* Applied to all corners */
+    background-color: rgba(25, 25, 25, 0.85); /* Slightly darker/different for distinction */
+    border: 2px solid #F5F5DC; /* Updated border to F5F5DC */
+    color: #F5F5DC; 
+    font-family: 'Inter', sans-serif; /* Ensure Inter font */
+    z-index: 11; /* Ensure it's above dialog-interface */
+}
+
 #dialog-interface {
     position: absolute;
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
     width: 90%;
-    max-width: 1000px;
-    z-index: 10; /* dialog 🔛�🗣🔥🔥 */
-}
-
-/* speaker name box */
-#speaker-name {
-    background-color: rgba(0, 0, 0, 0.8);
-    color: #ffc107;
-    /* border: 3px solid #ffc107; */
-    padding: 10px 23px;
-    font-size: 1.2em;
-    font-weight: bold;
-    display: inline-block;
-    margin-bottom: -2px;
-    position: relative;
-    /* left: 20px; */
-    visibility: hidden; /* default to hide if no speaker or narrator */
+    max-width: 1000px; 
+    z-index: 10;
+    background-color: rgba(30, 30, 30, 0.8); /* Updated background */
+    border: 2px solid #F5F5DC; /* Updated border to F5F5DC */
+    border-radius: 5px;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    color: #F5F5DC; 
+    font-family: 'Inter', sans-serif; /* Ensure Inter font */
 }
 
 #dialog-box {
-    background-color: rgba(0, 0, 0, 0.8);
-    border: 3px solid #ffc107;
-    color: #ffc107; 
     padding: 20px;
-    min-height: 100px;
-    position: relative;
+    min-height: 100px; 
+    position: relative; 
+    font-family: 'Inter', sans-serif; /* Ensure Inter font for consistency */
 }
 
 #dialog-text {
     margin: 0;
-    padding-right: 120px; /* space for next button */
+    padding-right: 120px; 
     font-size: 1.3em;
     line-height: 1.5;
+    min-height: 50px; 
+    color: #F5F5DC; /* Updated to beige-ish off-white */
+    font-family: 'Inter', sans-serif; /* Ensure Inter font */
 }
 
 #next-button {
     position: absolute;
     right: 20px;
-    bottom: 20px;
-    background-color: #ffc107;
-    border: none;
-    color: #000;
+    bottom: 15px;
+    background-color: rgba(30, 30, 30, 0.7); /* Match title screen button */
+    border: 2px solid #F5F5DC; /* Updated border to F5F5DC */
+    color: #F5F5DC; /* Beige text */
     padding: 10px 20px;
     font-size: 1em;
-    font-weight: bold;
+    font-weight: 600;
     cursor: pointer;
+    border-radius: 5px; /* Match title screen button */
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    font-family: 'Inter', sans-serif; /* Ensure Inter font */
+    backdrop-filter: blur(5px); /* Add blur */
+    -webkit-backdrop-filter: blur(5px);
+}
+#next-button:hover {
+    background-color: rgba(46, 139, 87, 0.7); /* Match title screen button hover */
+    border-color: #3CB371; /* Match title screen button hover */
+    color: #F5F5DC;
+    box-shadow: 0 0 8px #2E8B57, 0 0 12px #3CB371; /* Match title screen button hover */
 }
 
-/* dialog choices */
+/* --- Dialog Choices (Transparent Dark Brown & Beige, Green Hover) --- */
 #choices-container {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 20;
-    display: flex;
-    flex-direction: column; 
+    z-index: 20; 
+    display: flex; /* Changed from none to flex, JS handles initial hide */
+    flex-direction: column;
     align-items: center;
-    gap: 15px; 
-    padding: 20px;
-    background-color: rgba(0,0,0,0.8);
-    border: 3px solid #ffc107;
+    gap: 8px; /* This should now apply correctly */
+    padding: 25px;
+    background-color: rgba(30, 30, 30, 0.85); /* Updated background to match dialog-interface style */
+    border: 2px solid #F5F5DC; /* Updated border to F5F5DC */
+    border-radius: 5px;
+    backdrop-filter: blur(8px); /* Keep or adjust blur as needed */
+    -webkit-backdrop-filter: blur(8px);
+    font-family: 'Inter', sans-serif; /* Ensure Inter font */
+    width: 400px; /* Added width for the container */
 }
 
 .choice-button {
-    background-color: #ffc107; 
-    color: #000;
-    border: none;
+    background-color: rgba(30, 30, 30, 0.7); /* Match title screen button */
+    color: #F5F5DC; /* Beige text */
+    border: 2px solid #F5F5DC; /* Updated border to F5F5DC */
     padding: 15px 30px;
     font-size: 1.1em;
-    font-weight: bold;
+    font-weight: 600;
     cursor: pointer;
-    min-width: 300px; /* ensure buttons have a good width */
+    /* min-width: 300px; */ /* Removed min-width */
+    width: 100%; /* Make button take full width of container */
+    box-sizing: border-box; /* Ensure padding/border are within width */
     text-align: center;
-    transition: background-color 0.3s ease;
+    border-radius: 5px; /* Match title screen button */
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    font-family: 'Inter', sans-serif; /* Ensure Inter font */
+    backdrop-filter: blur(5px); /* Add blur */
+    -webkit-backdrop-filter: blur(5px);
+}
+.choice-button:hover {
+    background-color: rgba(46, 139, 87, 0.7); /* Match title screen button hover */
+    border-color: #3CB371; /* Match title screen button hover */
+    color: #F5F5DC;
+    box-shadow: 0 0 8px #2E8B57, 0 0 12px #3CB371; /* Match title screen button hover */
 }
 
-.choice-button:hover {
-    background-color: #e0a800; 
+/* --- Title Screen Specific Styles --- */
+#title-screen-container {
+    width: 100%;
+    height: 100%;
+    position: relative; /* Changed from flex to relative for absolute positioning of title-block */
+    /* Removed: display: flex, flex-direction, justify-content, align-items: center */
 }
+
+#title-bg-canvas { /* Style for the Three.js canvas */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; /* Ensure canvas is behind the title block */
+}
+
+#title-block {
+    position: absolute; /* Positioned absolutamente within title-screen-container */
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-64px); /* Centers H1 (128px high / 2 = 64px) */
+    text-align: center;
+    color: #F5F5DC;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Ensure no background/panel styles from previous states */
+    background-color: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    backdrop-filter: none !important;
+}
+#title-block h1 {
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Ensure Inter is prioritized */
+    font-size: 128px; /* New font size */
+    font-weight: 900; /* New font weight */
+    margin: 0; 
+    line-height: 1; 
+    color: #F5F5DC; /* Changed to beige-ish off-white */
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.7); /* Adjusted shadow for white text */
+}
+#title-block p { /* Subtitle */
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Ensure Inter is prioritized */
+    font-size: 24px; /* New font size */
+    font-weight: 500; /* New font weight */
+    margin-top: 10px; /* Reduced top margin by 6px (16px - 6px = 10px) */
+    margin-bottom: 1.5em; /* Existing bottom margin, can be adjusted if needed */
+    color: #F5F5DC;
+    text-transform: uppercase; /* Added for all caps */
+}
+
+#play-button, #chapter-select-button {
+    background-color: rgba(30, 30, 30, 0.7); /* Partially transparent very dark brown */
+    color: #F5F5DC; /* Changed to beige-ish off-white */
+    border: 2px solid #F5F5DC; /* Updated border to F5F5DC */
+    padding: 15px 30px;
+    font-size: 1.2em; /* Existing - adjust if needed */
+    font-weight: 600; /* Existing - adjust if needed */
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 10px; /* Adjusted margin for spacing */
+    width: 300px; /* Increased width */
+    box-sizing: border-box; /* Ensure padding and border are included in the width */
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.7); /* Subtle text shadow for readability */
+}
+
+/* Specific adjustment for chapter select button margin */
+#chapter-select-button {
+    margin-bottom: 0; /* Remove bottom margin to prevent gap with dropdown */
+}
+
+#play-button:hover, #chapter-select-button:hover {
+    background-color: rgba(46, 139, 87, 0.7); /* More solid, darker green (SeaGreen at 70% alpha) */
+    border: 2px solid #3CB371; /* Current border from file */
+    color: #F5F5DC; /* Changed to beige-ish off-white */
+    box-shadow: 0 0 8px #2E8B57, 0 0 12px #3CB371; /* Less intense, more focused glow (SeaGreen, MediumSeaGreen) */
+}
+
+/* --- Chapter Select Modal Styles --- */
+#chapter-select-overlay {
+    position: fixed; /* Cover the whole screen */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent black background */
+    z-index: 1000; /* High z-index to be on top */
+    display: none; /* Hidden by default, shown by JS */
+    justify-content: center; /* Center panel horizontally */
+    align-items: center; /* Center panel vertically */
+    backdrop-filter: blur(3px); /* Optional: blur background content */
+    -webkit-backdrop-filter: blur(3px);
+}
+
+#chapter-select-panel {
+    background-color: rgba(30, 30, 30, 0.85); /* Match dialog-interface background */
+    border: 2px solid #F5F5DC; /* Match dialog-interface border */
+    border-radius: 5px; /* Match dialog-interface border-radius */
+    padding: 20px;
+    min-width: 300px; /* Minimum width for the panel */
+    max-width: 90%; /* Maximum width */
+    max-height: 80vh; /* Max height before scrolling */
+    overflow-y: auto; /* Allow scrolling for many chapters */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5); /* Optional: shadow for depth */
+    font-family: 'Inter', sans-serif; /* Ensure Inter font */
+    color: #F5F5DC; /* Beige text */
+}
+
+/* Styles for the UL inside the modal - this is the #chapter-list from HTML */
+#chapter-list { 
+    list-style-type: none; 
+    padding: 0; 
+    margin: 0; 
+    width: 100%; /* Take full width of the panel */
+}
+
+#chapter-list li a {
+    display: block; /* Make the entire area clickable */
+    padding: 12px 15px;
+    color: #F5F5DC; /* Beige text */
+    text-decoration: none;
+    border: 2px solid transparent; /* Placeholder for hover border */
+    border-radius: 4px; /* Slightly rounded corners for items */
+    margin-bottom: 8px; /* Space between chapter items */
+    background-color: rgba(45, 45, 45, 0.7); /* Slightly lighter than panel for item distinction */
+    transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    font-family: 'Inter', sans-serif; /* Ensure Inter font */
+}
+
+#chapter-list li a:hover {
+    background-color: rgba(46, 139, 87, 0.7); /* Match title screen button hover */
+    border-color: #3CB371; /* Match title screen button hover */
+    color: #F5F5DC;
+    box-shadow: 0 0 6px #2E8B57, 0 0 10px #3CB371; /* Slightly softer glow for list items */
+}
+
+/* Remove old dropdown styles if they are still present and conflicting */
+/* For example, if #chapter-select-container and old #chapter-list styles for dropdown exist */
+/* #chapter-select-container { */ /* This container might be obsolete if button is directly in #title-block */
+    /* display: none !important; */ /* Or adjust as needed if it's still used for button positioning */
+/* } */
+
+/* Ensure the old #chapter-list (dropdown version) styles do not interfere */
+/* The new #chapter-list is inside the modal, so its context is different */
+/* If #chapter-list had absolute positioning for dropdown, it's fine as it's now child of panel */
+
+
+/* --- Audio Settings UI --- */
+#audio-settings-button {
+    display: none; /* Hide the button */
+    /* position: fixed; */ /* Original styles below can be kept or removed if button is never shown */
+    top: 20px;
+    right: 20px;
+    background-color: rgba(30, 30, 30, 0.7); /* Theme background */
+    color: #F5F5DC; /* Theme text */
+    border: 2px solid #F5F5DC; /* Theme border */
+    padding: 10px 15px; 
+    font-size: 1.2em; 
+    font-weight: bold; /* Keep bold for icon/text emphasis */
+    cursor: pointer;
+    border-radius: 5px; /* Squared corners */
+    z-index: 1001; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    font-family: 'Inter', sans-serif; /* Theme font */
+    backdrop-filter: blur(5px); /* Theme blur */
+    -webkit-backdrop-filter: blur(5px);
+}
+#audio-settings-button:hover {
+    background-color: rgba(46, 139, 87, 0.7); /* Theme hover background */
+    border-color: #3CB371; /* Theme hover border */
+    color: #F5F5DC; /* Theme hover text */
+    box-shadow: 0 0 8px #2E8B57, 0 0 12px #3CB371; /* Theme hover glow */
+}
+
+#audio-settings-overlay {
+    display: none !important; /* Hide the overlay panel and ensure it stays hidden */
+    /* position: fixed; */ /* Original styles below can be kept or removed if overlay is never shown */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 1000; 
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+}
+
+#audio-settings-panel {
+    padding: 25px;
+    background-color: rgba(30, 30, 30, 0.85); /* Theme panel background */
+    border: 2px solid #F5F5DC; /* Theme border */
+    border-radius: 8px; /* Consistent panel border-radius */
+    backdrop-filter: blur(8px); /* Theme panel blur */
+    -webkit-backdrop-filter: blur(8px);
+    color: #F5F5DC; 
+    min-width: 300px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    font-family: 'Inter', sans-serif; /* Theme font for panel content */
+}
+#audio-settings-panel h2 {
+    margin-top: 0;
+    color: #F5F5DC; 
+    text-align: center;
+    font-weight: 700;
+    font-family: 'Inter', sans-serif; /* Ensure Inter font */
+}
+#volume-slider-container {
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+#volume-slider-container label {
+    font-weight: 500;
+    color: #F5F5DC;
+    font-family: 'Inter', sans-serif; /* Ensure Inter font */
+}
+#volume-slider {
+    flex-grow: 1;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 8px;
+    background: rgba(20,20,20,0.7); /* Darker track, consistent with theme */
+    outline: none;
+    border-radius: 4px;
+    border: 1px solid rgba(85,85,85,0.5); /* Subtle border for track */
+}
+#volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #F5F5DC; /* Off-white thumb, stands out */
+    cursor: pointer;
+    border-radius: 50%;
+    border: 2px solid rgba(46,139,87,0.7); /* Green border, like hover */
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+#volume-slider::-webkit-slider-thumb:hover {
+    background: #3CB371; /* Green on hover */
+    border-color: #F5F5DC;
+}
+#volume-slider::-moz-range-thumb {
+    width: 18px; 
+    height: 18px;
+    background: #F5F5DC;
+    cursor: pointer;
+    border-radius: 50%;
+    border: 2px solid rgba(46,139,87,0.7);
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+#volume-slider::-moz-range-thumb:hover {
+    background: #3CB371;
+    border-color: #F5F5DC;
+}
+
+
+#close-audio-settings {
+    display: block;
+    margin: 20px auto 0 auto; 
+    background-color: rgba(30, 30, 30, 0.7); /* Theme background */
+    color: #F5F5DC; /* Theme text */
+    border: 2px solid #F5F5DC; /* Theme border */
+    padding: 10px 20px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 5px; /* Squared corners */
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    font-family: 'Inter', sans-serif; /* Theme font */
+    backdrop-filter: blur(5px); /* Theme blur */
+    -webkit-backdrop-filter: blur(5px);
+}
+#close-audio-settings:hover {
+    background-color: rgba(46, 139, 87, 0.7); /* Theme hover background */
+    border-color: #3CB371; /* Theme hover border */
+    color: #F5F5DC; /* Theme hover text */
+    box-shadow: 0 0 8px #2E8B57, 0 0 12px #3CB371; /* Theme hover glow */
+}
+
+/* Class to disable buttons during typewriter */
+.disabled-while-typing {
+    opacity: 0.6;
+    cursor: not-allowed !important; 
+}
+
+/* Utility class for hidden elements */
+.hidden {
+    display: none !important;
+}
+
+/* Styles for Chapter Select Dropdown (added during title screen restoration) */
+/* Remove this duplicate section if it exists, or ensure styles are merged correctly.
+   The #chapter-select-container above should be the primary one.
+   If this section is indeed a duplicate from a previous step, it can be deleted.
+   For now, I will assume the #chapter-select-container definition above is the one to keep and modify.
+   The #chapter-dropdown styles themselves are likely fine.
+*/
+/*
+#chapter-select-container {
+    position: relative; 
+    display: inline-block; 
+    margin: 10px;
+}
+*/
