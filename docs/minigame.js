@@ -175,24 +175,38 @@ $(document).ready(function() {
     }
 
     function startDragonAnimation() {
-        const dragonEnemy = $('#rath-enemy'); // Changed to #rath-enemy
-        const frameCount = 53; // Total number of frames in the sequence
-        const frameRate = 1000 / 60; // 60 FPS (1000ms divided by 60 frames)
-        const imagePath = '../../images/animations/rathalos/flying/'; // Path to the PNG sequence
-        let currentFrame = 0;
+        const dragonEnemy = $('#rath-enemy');
+        // Corrected: Frames rath-fly0000.png to rath-fly0053.png means 54 frames.
+        const originalFrameCount = 54; 
+        
+        // --- Frame Skipping Settings ---
+        const frameSkip = 6; 
+        const desiredFps = 10; 
+        // --- End Frame Skipping Settings ---
 
-        function updateFrame() {
-            // Calculate the current frame's file name
-            const frameFileName = `${imagePath}rath-fly${String(currentFrame).padStart(4, '0')}.png`;            // Update the background image of the container
+        const displayInterval = 1000 / desiredFps;
+        
+        // Corrected path: Relative from docs/scenes/html/minigame.html to docs/images/Animations/Rathalos/Flying/
+        const imagePath = '../../images/Animations/Rathalos/Flying/'; 
+        let framePointer = 0;
+
+        function updateSkippedFrame() {
+            const actualFrameToLoad = framePointer % originalFrameCount;
+            // Filename pattern is rath-flyXXXX.png
+            const frameFileName = `${imagePath}rath-fly${String(actualFrameToLoad).padStart(4, '0')}.png`;
+            
             dragonEnemy.css({
-                'background-image': `url(${frameFileName})`
+                'background-image': `url('${frameFileName}')`
             });
 
-            // Increment the frame counter
-            currentFrame = (currentFrame + 1) % frameCount; // Loop back to the first frame
+            framePointer += frameSkip;
         }
 
-        // Start the animation loop
-        setInterval(updateFrame, frameRate);
+        if (originalFrameCount > 0 && frameSkip > 0) {
+            setInterval(updateSkippedFrame, displayInterval);
+            updateSkippedFrame(); 
+        } else {
+            console.warn("Dragon animation not started: originalFrameCount or frameSkip is zero or invalid.");
+        }
     }
 });
