@@ -10,45 +10,6 @@ $(document).ready(function() {
         console.error("AudioManager is not loaded!");
     }
 
-    const audioSettingsButton = $('#audio-settings-button');
-    const audioSettingsOverlay = $('#audio-settings-overlay');
-    const audioSettingsPanel = $('#audio-settings-panel'); 
-    const closeAudioSettingsButton = $('#close-audio-settings');
-    const volumeSlider = $('#volume-slider');
-
-    function openAudioSettings() {
-        if (typeof AudioManager !== 'undefined' && volumeSlider.length) {
-            volumeSlider.val(AudioManager.masterVolume);
-        }
-        audioSettingsOverlay.removeClass('hidden'); // Remove hidden class
-        audioSettingsOverlay.css('display', 'flex'); // Set display to flex
-    }
-
-    function closeAudioSettings() {
-        audioSettingsOverlay.addClass('hidden'); // Add hidden class back
-        audioSettingsOverlay.css('display', 'none'); // Set display to none (optional, as .hidden should do it)
-    }
-
-    if (audioSettingsButton.length) {
-        audioSettingsButton.on('click', openAudioSettings);
-    }
-    if (closeAudioSettingsButton.length) {
-        closeAudioSettingsButton.on('click', closeAudioSettings);
-    }
-    if (volumeSlider.length && typeof AudioManager !== 'undefined') {
-        volumeSlider.on('input', function() {
-            AudioManager.setMasterVolume(parseFloat($(this).val()));
-        });
-    }
-    if (audioSettingsOverlay.length) {
-        // Ensure it's hidden initially by relying on the HTML class or explicitly setting display none
-        if (!audioSettingsOverlay.hasClass('hidden')) {
-            audioSettingsOverlay.addClass('hidden');
-        }
-        audioSettingsOverlay.css('display', 'none'); // Reinforce initial hidden state via JS if needed
-    }
-
-    //adjust image paths based on html location.
     function getImagePath(originalPath) {
         if (!originalPath) {
             return null;
@@ -80,7 +41,6 @@ $(document).ready(function() {
         }
     }
 
-    //scene loader
     function loadScene(sceneFile) {
         if (!sceneFile) {
             if (!window.location.pathname.endsWith('index.html') && !window.location.pathname.endsWith('/')) {
@@ -140,7 +100,6 @@ $(document).ready(function() {
             if (currentSceneData && currentSceneData[currentLine]) {
                 $('#dialog-text').text(currentSceneData[currentLine].dialog || "");
             }
-            // Only re-enable choice buttons here. Next button's state is handled elsewhere or should remain enabled.
             $('.choice-button').removeClass('disabled-while-typing').prop('disabled', false);
         }
     }
@@ -318,14 +277,13 @@ $(document).ready(function() {
                 });
                 choicesContainer.append(choiceButton);
             });
-            choicesContainer.show(); // This should now use display: flex from CSS
+            choicesContainer.show(); 
             if (!typewriterInterval) {
                  $('.choice-button').removeClass('disabled-while-typing').prop('disabled', false);
             }
         } else {
             if (line.target_id || line.next_scene || currentLine < currentSceneData.length - 1) {
                 nextButton.show();
-                // Ensure next-button is enabled if it's shown and typewriter isn't running or finished instantly
                 if (!typewriterInterval) {
                     nextButton.removeClass('disabled-while-typing').prop('disabled', false);
                 }
@@ -351,14 +309,13 @@ $(document).ready(function() {
         alert("The End (or scene finished without explicit next_scene)");
     }
 
-    // initial setup
     $('#character-left').css('opacity', 0);
     $('#character-right').css('opacity', 0);
     $('#choices-container').hide();
     const sceneFileToLoad = getSceneFile();
 
     if ($('#title-screen-container').length) {
-        // Title screen logic is in titlescript.js
+        // Logic for title screen is in titlescript.js
     } else {
         loadScene(sceneFileToLoad);
     }

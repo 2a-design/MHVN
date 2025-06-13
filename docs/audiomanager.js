@@ -1,5 +1,5 @@
 const AudioManager = {
-    masterVolume: 1.0, // Default volume
+    masterVolume: 1.0,
     bgmPlayer: null,
     sfxPlayers: [],
     maxSfxPlayers: 10, 
@@ -21,12 +21,13 @@ const AudioManager = {
     // Play background music
     playMusic: function(src) {
         this.ensureBgmPlayer();
-        if (this.bgmPlayer.src !== src) { // Only change if different BGM
+        // Only change if different BGM
+        if (this.bgmPlayer.src !== src) { 
             this.bgmPlayer.src = this.getAudioPath(src);
             this.bgmPlayer.load(); // Important to load new source
         }
         this.bgmPlayer.play().catch(error => console.error("Error playing BGM:", error));
-        this.bgmPlayer.volume = this.masterVolume; // Apply current master volume
+        this.bgmPlayer.volume = this.masterVolume;
     },
 
     // Stop background music
@@ -91,5 +92,5 @@ const AudioManager = {
 
 // Initialize BGM player on load and apply stored volume settings.
 $(document).ready(function() {
-    AudioManager.ensureBgmPlayer(); // This will now also load and apply stored volume
+    AudioManager.ensureBgmPlayer();
 });

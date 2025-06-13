@@ -1,6 +1,6 @@
 /* --- Minigame Styles --- */
 :root {
-    --rath-size: 1400px; /* Adjust this single value to change rath size */
+    --rath-size: 1400px;
 }
 
 #minigame-container {
@@ -54,29 +54,29 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); /* Screen dim */
+    background-color: rgba(0, 0, 0, 0.7); /* screen dim */
     z-index: 50;
     display: none;
-    flex-direction: column; /* These will no longer center .overlay-content due to its absolute positioning */
-    justify-content: center; /* but are harmless to leave */
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
 }
 
-.overlay-content { /* Styles for the content box */
-    position: absolute; /* Added for centering */
-    top: 50%;           /* Added for centering */
-    left: 50%;          /* Added for centering */
-    transform: translate(-50%, -50%); /* Added for centering */
-    background-color: rgba(30,30,30,0.8); /* UPDATED: Dark transparent background */
-    border: 2px solid #FFFFFF;       /* UPDATED: White border */
+.overlay-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(30,30,30,0.8);
+    border: 2px solid #FFFFFF;
     padding: 40px;
     border-radius: 10px;
     text-align: center;
     min-width: 350px;
     max-width: 500px;
-    box-shadow: 0 0 15px rgba(0,0,0,0.5); /* Optional shadow for depth */
-    backdrop-filter: blur(5px); /* ADDED: Blur effect */
-    -webkit-backdrop-filter: blur(5px); /* ADDED: Blur effect for Safari */
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
 }
 
 #enemy-ui-container {
@@ -92,8 +92,8 @@
     font-size: 2em;
     font-weight: 700;
     text-shadow: 2px 2px 4px #000;
-    font-family: 'Inter', sans-serif; /* ADDED/ENSURED: Inter font */
-    color: #F5F5DC; /* UPDATED: Beige-ish off-white text color */
+    font-family: 'Inter', sans-serif;
+    color: #F5F5DC;
 }
 
 #health-bar-container,
@@ -101,32 +101,32 @@
     width: 400px;
     max-width: 80%;
     height: 30px;
-    background-color: rgba(30,30,30,0.7); /* UPDATED: Dark transparent background */
-    border: 2px solid #FFFFFF; /* UPDATED: White stroke */
+    background-color: rgba(30,30,30,0.7);
+    border: 2px solid #FFFFFF;
     border-radius: 5px;
     margin-top: 10px;
     padding: 2px;
     display: inline-block;
     backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px); /* For Safari */
+    -webkit-backdrop-filter: blur(5px);
 }
 
 #health-bar {
     height: 100%;
     width: 100%;
-    background: linear-gradient(to right, #FF0000, #CC0000); /* Vibrant red gradient */
+    background: linear-gradient(to right, #FF0000, #CC0000);
     border-radius: 2px;
     transition: width 0.3s ease-out;
-    box-shadow: 0 0 3px rgba(255,0,0,0.7), 0 0 5px rgba(255,0,0,0.5), 0 0 7px rgba(220,20,60,0.5); /* Red glow */
+    box-shadow: 0 0 3px rgba(255,0,0,0.7), 0 0 5px rgba(255,0,0,0.5), 0 0 7px rgba(220,20,60,0.5);
 }
 
 #player-health-bar {
     height: 100%;
     width: 100%;
-    background: linear-gradient(to right, #00FF00, #00AA00); /* Vibrant green gradient */
+    background: linear-gradient(to right, #00FF00, #00AA00);
     border-radius: 2px;
     transition: width 0.3s ease-out;
-    box-shadow: 0 0 3px rgba(0,255,0,0.7), 0 0 5px rgba(0,255,0,0.5), 0 0 7px rgba(46,139,87,0.5); /* Green glow */
+    box-shadow: 0 0 3px rgba(0,255,0,0.7), 0 0 5px rgba(0,255,0,0.5), 0 0 7px rgba(46,139,87,0.5);
 }
 
 #rath-enemy {
@@ -135,18 +135,18 @@
     cursor: pointer;
     transition: transform 0.1s ease-out, filter 0.05s ease-out;
     z-index: 12;
-    background-size: cover; /* Changed from 100% 100% to cover for diagnostics */
+    background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
 }
 
 #rath-hitbox {
     position: absolute;
-    width: calc(var(--rath-size) * 0.4); /* Scale with --rath-size */
-    height: calc(var(--rath-size) * 0.5); /* Scale with --rath-size */
+    width: calc(var(--rath-size) * 0.4); /* scale with --rath-size */
+    height: calc(var(--rath-size) * 0.5); 
     left: 50%;
-    top: calc(50% - var(--rath-size) * 0.3); /* Position relative to centered rathalos */
-    opacity: 0; /* Keep this for now, user can change if they want it visible */
+    top: calc(50% - var(--rath-size) * 0.3); /* position relative to centered rathalos */
+    opacity: 0; /* toggle hitbox visibility */
     transform: translateX(-50%);
     background-color: rgba(0, 100, 255, 0.3);
     border: 2px solid rgba(0, 100, 255, 0.5);
@@ -156,31 +156,31 @@
 
 .damage-popup {
     position: absolute;
-    color: #F5F5DC; /* UPDATED: Beige-ish off-white text color */
+    color: #F5F5DC;
     font-size: 2.5em;
     font-weight: bold;
-    text-shadow: 2px 2px 4px #000; /* UPDATED: Standardized text shadow */
+    text-shadow: 2px 2px 4px #000;
     user-select: none;
     transform: translateX(-50%);
-    font-family: 'Inter', sans-serif; /* ADDED: Inter font */
+    font-family: 'Inter', sans-serif;
 }
 
 .overlay-content h1 {
     font-size: 4em;
-    color: #F5F5DC; /* UPDATED: Beige-ish off-white text color */
+    color: #F5F5DC;
     text-shadow: 3px 3px 6px #000;
-    font-family: 'Inter', sans-serif; /* ADDED/ENSURED: Inter font */
-    font-weight: 900; /* Match title H1 weight */
-    text-transform: uppercase; /* Match title H1 case */
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    text-transform: uppercase;
 }
 
 .return-button {
-    background-color: rgba(30,30,30,0.7); /* UPDATED: Dark transparent background */
-    color: #F5F5DC; /* Beige text */
-    border: 2px solid #FFFFFF; /* UPDATED: White stroke */
+    background-color: rgba(30,30,30,0.7);
+    color: #F5F5DC;
+    border: 2px solid #FFFFFF;
     padding: 15px 30px;
     font-size: 1.2em; 
-    font-family: 'Inter', sans-serif; /* ADDED/ENSURED: Inter font */
+    font-family: 'Inter', sans-serif;
     font-weight: bold;
     cursor: pointer;
     margin-top: 20px;
@@ -189,16 +189,16 @@
     min-width: 200px; 
     transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
     backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px); /* For Safari */
+    -webkit-backdrop-filter: blur(5px);
 }
 
 .return-button:hover {
-    background-color: rgba(46,139,87,0.7); /* UPDATED: Green hover background */
-    border-color: #3CB371; /* UPDATED: Green hover border */
-    box-shadow: 0 0 8px #2E8B57, 0 0 12px #3CB371; /* UPDATED: Green hover glow */
+    background-color: rgba(46,139,87,0.7);
+    border-color: #3CB371;
+    box-shadow: 0 0 8px #2E8B57, 0 0 12px #3CB371;
 }
 
-/* Fireball Animation */
+/* fireball Animation */
 .fireball {
     width: 200px;
     height: 200px;
@@ -238,7 +238,6 @@
     }
 }
 
-/* Screen Flash Animation */
 #screen-flash-overlay.flash {
     animation: screen-flash-animation 0.5s ease-out;
 }
@@ -257,16 +256,14 @@
     }
 }
 
-/* Slash Effect */
 .slash-effect {
     position: absolute;
     width: 200px;
     height: 200px;
     pointer-events: none;
     z-index: 25;
-    /* mix-blend-mode: screen; // Keep or remove based on desired visual effect with ellipse */
     transform-origin: center;
-    opacity: 0; /* Start transparent for animation */
+    opacity: 0;
 }
 
 .slash-effect svg {
@@ -274,20 +271,19 @@
     height: 100%;
 }
 
-/* Gradient colors in SVG defs are used directly by the ellipse fill */
 
 .slash-effect.animate {
     animation: slash-ellipse-fade 0.4s ease-out forwards;
 }
 
-@keyframes slash-ellipse-fade { /* Renamed and simplified from slash-fade */
+@keyframes slash-ellipse-fade {
     0% {
         opacity: 0;
         transform: scale(0.3);
     }
-    50% { /* Adjusted timing for a quicker appearance */
+    50% { 
         opacity: 1;
-        transform: scale(1.2); /* Slightly overshoot for impact */
+        transform: scale(1.2);
     }
     100% {
         opacity: 0;
@@ -296,75 +292,75 @@
 }
 
 #rath-image {
-    width: 900px; /* Adjust size as needed */
-    height: auto; /* Maintain aspect ratio */
+    width: 900px;
+    height: auto;
     display: block;
-    margin: 0 auto; /* Center the image */
+    margin: 0 auto;
 }
 
-.rath-darken { /* Added rath-darken class */
+.rath-darken {
     filter: brightness(0.6);
 }
 
 #click-to-attack-text {
     position: absolute;
-    top: 40%; /* Adjusted to be slightly higher, above the Rathalos */
+    top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
     color: white;
-    font-size: 2.5em; /* Slightly smaller for balance */
+    font-size: 2.5em;
     font-weight: bold;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.8), 0 0 5px rgba(0,0,0,0.5); /* Enhanced shadow */
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.8), 0 0 5px rgba(0,0,0,0.5);
     z-index: 60; 
     pointer-events: none; 
-    display: none; /* Initially hidden, JS will show it */
-    opacity: 0; /* Start transparent for fade-in */
+    display: none;
+    opacity: 0;
     padding: 10px 20px;
     background-color: rgba(0,0,0,0.5);
     border-radius: 8px;
-    transition: opacity 0.5s ease-out; /* For smooth fade out */
+    transition: opacity 0.5s ease-out;
 }
 
-/* --- Victory Screen Styles --- */
-#quest-complete-overlay .overlay-content { /* UPDATED SELECTOR */
-    border-color: #3CB371; /* Green border */
-    box-shadow: 0 0 15px rgba(0,0,0,0.5), 0 0 10px #2E8B57, 0 0 15px #3CB371; /* Base shadow + Green glow */
+/* victory screen */
+#quest-complete-overlay .overlay-content {
+    border-color: #3CB371;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5), 0 0 10px #2E8B57, 0 0 15px #3CB371;
 }
 
-#quest-complete-overlay .overlay-content h1 { /* UPDATED SELECTOR */
-    text-shadow: 3px 3px 6px #000, 0 0 8px #2E8B57, 0 0 12px #3CB371; /* Base shadow + Green glow */
+#quest-complete-overlay .overlay-content h1 {
+    text-shadow: 3px 3px 6px #000, 0 0 8px #2E8B57, 0 0 12px #3CB371;
 }
 
-#quest-complete-overlay .return-button { /* UPDATED SELECTOR */
-    background-color: rgba(46,139,87,0.7); /* Green background (like hover state) */
-    border-color: #3CB371; /* Green border */
-    box-shadow: 0 0 8px #2E8B57, 0 0 12px #3CB371; /* Green glow */
+#quest-complete-overlay .return-button {
+    background-color: rgba(46,139,87,0.7);
+    border-color: #3CB371;
+    box-shadow: 0 0 8px #2E8B57, 0 0 12px #3CB371;
 }
 
-#quest-complete-overlay .return-button:hover { /* UPDATED SELECTOR */
-    background-color: rgba(60, 179, 113, 0.8); /* Brighter green */
-    border-color: #50C878; /* Brighter green border */
-    box-shadow: 0 0 10px #3CB371, 0 0 15px #50C878, 0 0 20px #2E8B57; /* Enhanced green glow */
+#quest-complete-overlay .return-button:hover {
+    background-color: rgba(60, 179, 113, 0.8);
+    border-color: #50C878;
+    box-shadow: 0 0 10px #3CB371, 0 0 15px #50C878, 0 0 20px #2E8B57;
 }
 
-/* --- Defeat Screen Styles --- */
-#game-over-overlay .overlay-content { /* UPDATED SELECTOR */
-    border-color: #DC143C; /* Crimson border */
-    box-shadow: 0 0 15px rgba(0,0,0,0.5), 0 0 10px #B22222, 0 0 15px #DC143C; /* Base shadow + Red glow */
+/* defeat screen */
+#game-over-overlay .overlay-content {
+    border-color: #DC143C;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5), 0 0 10px #B22222, 0 0 15px #DC143C;
 }
 
-#game-over-overlay .overlay-content h1 { /* UPDATED SELECTOR */
-    text-shadow: 3px 3px 6px #000, 0 0 8px #B22222, 0 0 12px #DC143C; /* Base shadow + Red glow */
+#game-over-overlay .overlay-content h1 {
+    text-shadow: 3px 3px 6px #000, 0 0 8px #B22222, 0 0 12px #DC143C;
 }
 
-#game-over-overlay .return-button { /* UPDATED SELECTOR */
-    background-color: rgba(139,0,0,0.7); /* Dark red background */
-    border-color: #DC143C; /* Crimson border */
-    box-shadow: 0 0 8px #B22222, 0 0 12px #DC143C; /* Red glow */
+#game-over-overlay .return-button {
+    background-color: rgba(139,0,0,0.7);
+    border-color: #DC143C;
+    box-shadow: 0 0 8px #B22222, 0 0 12px #DC143C;
 }
 
-#game-over-overlay .return-button:hover { /* UPDATED SELECTOR */
-    background-color: rgba(220, 20, 60, 0.8); /* Brighter red */
-    border-color: #FF0000; /* Brighter red border */
-    box-shadow: 0 0 10px #DC143C, 0 0 15px #FF0000, 0 0 20px #B22222; /* Enhanced red glow */
+#game-over-overlay .return-button:hover {
+    background-color: rgba(220, 20, 60, 0.8);
+    border-color: #FF0000;
+    box-shadow: 0 0 10px #DC143C, 0 0 15px #FF0000, 0 0 20px #B22222;
 }

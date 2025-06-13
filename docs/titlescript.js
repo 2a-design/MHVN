@@ -1,36 +1,26 @@
 $(document).ready(function() {
-    // Check if we are on the title screen
     if ($('#title-screen-container').length) {
 
-        // --- Three.js Title Screen Background Globals ---
         let titleScene, titleCamera, titleRenderer, titlePanorama, titleCanvas;
         let isDragging = false;
         let previousMousePosition = { x: 0, y: 0 };
         let titleAnimationRequest;
 
-        // --- Chapters ---
-        // This would ideally be populated dynamically, but for this snapshot,
-        // let's assume a predefined list or that the dynamic population logic
-        // was part of what was moved.
         const chapters = [
             { name: "01: Intro", file: "scenes/html/scene1.html" },
             { name: "02: Tracking", file: "scenes/html/tracking.html" },
             { name: "03: Hunting", file: "scenes/html/minigame.html" },
             { name: "04: Debrief", file: "scenes/html/scene3-conclusion.html" },
-            // Add other scenes here
         ];
 
-        // --- Chapter Selection Modal ---
-        let chapterOverlay, chapterPanel, chapterListULElement; // chapterListULElement will be the UL for chapters
-        // const chapterListUL = $('#chapter-list'); // Removed: No longer relying on pre-existing UL from HTML for modal content
+        let chapterOverlay, chapterPanel, chapterListULElement;
 
         function populateChapterList() {
-            // Ensure chapterListULElement is valid and ready
             if (!chapterListULElement || chapterListULElement.length === 0) {
                 console.error("Chapter list UL element is not available for population.");
                 return;
             }
-            chapterListULElement.empty(); // Clear existing items
+            chapterListULElement.empty();
             chapters.forEach(chapter => {
                 const listItem = $('<li><a href="javascript:void(0);" data-href="' + chapter.file + '">' + chapter.name + '</a></li>');
                 chapterListULElement.append(listItem);
@@ -43,18 +33,17 @@ $(document).ready(function() {
                 return; 
             }
 
-            // Attempt to find existing modal elements first
             chapterOverlay = $('#chapter-select-overlay');
 
-            if (chapterOverlay.length === 0) { // If overlay doesn't exist, create everything
+            if (chapterOverlay.length === 0) { 
                 chapterOverlay = $('<div id="chapter-select-overlay"></div>').hide();
                 chapterPanel = $('<div id="chapter-select-panel"></div>');
-                chapterListULElement = $('<ul id="chapter-list"></ul>'); // Create the UL dynamically
+                chapterListULElement = $('<ul id="chapter-list"></ul>');
 
                 chapterPanel.append(chapterListULElement);
                 chapterOverlay.append(chapterPanel);
                 $('body').append(chapterOverlay);
-            } else { // Overlay exists, try to find panel and list
+            } else { 
                 chapterPanel = chapterOverlay.find('#chapter-select-panel');
                 if (chapterPanel.length === 0) { 
                     console.warn("#chapter-select-panel not found in existing overlay. Recreating panel and list.");
@@ -72,24 +61,20 @@ $(document).ready(function() {
                 }
             }
 
-            populateChapterList(); // Populate chapters
+            populateChapterList();
 
-            // Event handler for showing the modal
             $('#chapter-select-button').off('click').on('click', function(e) {
                 e.stopPropagation();
-                // populateChapterList(); // Re-populate if chapters can change; for now, they are constant.
                 chapterOverlay.css('display', 'flex');
             });
 
-            // Event handler for hiding modal on overlay click
             chapterOverlay.on('click', function(e) {
                 if ($(e.target).is('#chapter-select-overlay')) {
                     chapterOverlay.hide();
                 }
             });
 
-            // Event handler for chapter selection (delegated to the list UL)
-            if (chapterListULElement) { // Ensure it's defined before attaching handler
+            if (chapterListULElement) {
                 chapterListULElement.off('click', 'a').on('click', 'a', function(e) {
                     e.preventDefault();
                     const targetUrl = $(this).data('href');
@@ -100,12 +85,9 @@ $(document).ready(function() {
                 });
             }
             
-            // Clean up old dropdown-specific click-outside-to-close handler if it existed
             $(document).off('click.chapterDropdown'); 
         }
 
-
-        // --- Event Handlers ---
         $('#play-button').on('click', function() {
             if (chapters.length > 0) {
                 window.location.href = chapters[0].file;
@@ -114,36 +96,20 @@ $(document).ready(function() {
             }
         });
 
-        // $('#chapter-select-button').on('click', function(e) { // This is now handled in initChapterSelectModal
-        // e.stopPropagation(); 
-        // chapterList.toggle(); 
-        // });
-
-        // Hide chapter list if clicking outside // THIS IS OLD DROPDOWN LOGIC
-        // $(document).on('click', function(e) { // OLD DROPDOWN LOGIC
-            // Check if the chapterList is visible and the click is outside the button and the list itself
-            // if (chapterList.is(':visible') &&  // chapterList was the old dropdown UL
-                // !$(e.target).closest('#chapter-list').length &&
-                // !$(e.target).is('#chapter-select-button') &&
-                // !$(e.target).closest('#chapter-select-button').length) {
-                // chapterList.hide(); // OLD DROPDOWN LOGIC
-            // }
-        // }); // OLD DROPDOWN LOGIC
-
-        // --- Title Screen 3D Background ---
+        //threejs stuff
         function initTitle3DBackground() {
             titleCanvas = document.createElement('canvas');
             titleCanvas.id = 'title-bg-canvas';
-            $('#title-screen-container').prepend(titleCanvas); // Prepend to be behind other elements
+            $('#title-screen-container').prepend(titleCanvas);
 
             titleScene = new THREE.Scene();
+            //fov determines zoom (40 = fullscreen)
             titleCamera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 1000);
             titleRenderer = new THREE.WebGLRenderer({ canvas: titleCanvas, antialias: true, alpha: true });
             titleRenderer.setSize(window.innerWidth, window.innerHeight);
-            titleRenderer.setClearColor(0x000000, 0); // Transparent background
+            titleRenderer.setClearColor(0x000000, 0);
 
             const textureLoader = new THREE.TextureLoader();
-            // Assuming a specific title screen panorama image
             const texture = textureLoader.load('images/pano/plains-pano.png', (loadedTexture) => {
                 const imageAspect = loadedTexture.image.width / loadedTexture.image.height;
                 const cylinderHeight = 100;
@@ -152,15 +118,15 @@ $(document).ready(function() {
                 const geometry = new THREE.CylinderGeometry(cylinderRadius, cylinderRadius, cylinderHeight, 64, 1, true);
                 loadedTexture.mapping = THREE.UVMapping;
                 loadedTexture.wrapS = THREE.RepeatWrapping;
-                loadedTexture.repeat.x = -1; // Flip texture horizontally
+                loadedTexture.repeat.x = -1;
 
                 const material = new THREE.MeshBasicMaterial({ map: loadedTexture, side: THREE.BackSide });
                 titlePanorama = new THREE.Mesh(geometry, material);
                 titlePanorama.position.y = cylinderHeight / 2;
                 titleScene.add(titlePanorama);
 
-                titleCamera.position.set(0, cylinderHeight / 2, 0.1); // Slightly inside to see texture
-                titleCamera.lookAt(new THREE.Vector3(0, cylinderHeight / 2, -1)); // Look forward
+                titleCamera.position.set(0, cylinderHeight / 2, 0.1);
+                titleCamera.lookAt(new THREE.Vector3(0, cylinderHeight / 2, -1));
             });
 
             $(titleCanvas).on('mousedown', function(e) {
@@ -201,23 +167,18 @@ $(document).ready(function() {
             titleAnimationRequest = requestAnimationFrame(animateTitle3DBackground);
             if (titleRenderer && titleScene && titleCamera) {
                 // Add auto-rotation
-                if (titlePanorama && !isDragging) { // Only auto-rotate if not dragging
-                    titlePanorama.rotation.y += 0.0005; // Adjust speed as needed
+                if (titlePanorama && !isDragging) { //auto rotate when not dragging
+                    titlePanorama.rotation.y += 0.0005; // auto rotate speed
                 }
                 titleRenderer.render(titleScene, titleCamera);
             }
         }
 
-        // Initialize title screen specific features
-        // populateChapterList(); // Old direct call for dropdown
-        initChapterSelectModal(); // Initialize new modal system
+        initChapterSelectModal();
         initTitle3DBackground();
 
-        // Ensure AudioManager is available if used on title screen
         if (typeof AudioManager !== 'undefined') {
             AudioManager.ensureBgmPlayer();
-            // Example: Play title music if defined
-            // AudioManager.playMusic('audio/bgm/title_theme.mp3');
         }
     }
 });
