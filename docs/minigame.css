@@ -202,7 +202,7 @@
 .fireball {
     width: 200px;
     height: 200px;
-    background: url('./images/animations/vfx/fireball.gif') center/contain no-repeat;
+    background: url('../images/animations/vfx/fireball.gif') center/contain no-repeat;
     position: absolute;
     top: 50%;
     left: 50%;
