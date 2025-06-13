@@ -1,6 +1,52 @@
 $(document).ready(function() {
-    let currentLine = 0; // Index of the current line in currentSceneData
+    let currentLine = 0; 
     let currentSceneData;
+    let typewriterInterval = null;
+    const TYPEWRITER_DURATION = 1000; 
+
+    if (typeof AudioManager !== 'undefined') {
+        AudioManager.ensureBgmPlayer(); 
+    } else {
+        console.error("AudioManager is not loaded!");
+    }
+
+    const audioSettingsButton = $('#audio-settings-button');
+    const audioSettingsOverlay = $('#audio-settings-overlay');
+    const audioSettingsPanel = $('#audio-settings-panel'); 
+    const closeAudioSettingsButton = $('#close-audio-settings');
+    const volumeSlider = $('#volume-slider');
+
+    function openAudioSettings() {
+        if (typeof AudioManager !== 'undefined' && volumeSlider.length) {
+            volumeSlider.val(AudioManager.masterVolume);
+        }
+        audioSettingsOverlay.removeClass('hidden'); // Remove hidden class
+        audioSettingsOverlay.css('display', 'flex'); // Set display to flex
+    }
+
+    function closeAudioSettings() {
+        audioSettingsOverlay.addClass('hidden'); // Add hidden class back
+        audioSettingsOverlay.css('display', 'none'); // Set display to none (optional, as .hidden should do it)
+    }
+
+    if (audioSettingsButton.length) {
+        audioSettingsButton.on('click', openAudioSettings);
+    }
+    if (closeAudioSettingsButton.length) {
+        closeAudioSettingsButton.on('click', closeAudioSettings);
+    }
+    if (volumeSlider.length && typeof AudioManager !== 'undefined') {
+        volumeSlider.on('input', function() {
+            AudioManager.setMasterVolume(parseFloat($(this).val()));
+        });
+    }
+    if (audioSettingsOverlay.length) {
+        // Ensure it's hidden initially by relying on the HTML class or explicitly setting display none
+        if (!audioSettingsOverlay.hasClass('hidden')) {
+            audioSettingsOverlay.addClass('hidden');
+        }
+        audioSettingsOverlay.css('display', 'none'); // Reinforce initial hidden state via JS if needed
+    }
 
     //adjust image paths based on html location.
     function getImagePath(originalPath) {
@@ -9,9 +55,9 @@ $(document).ready(function() {
         }
         const currentHtmlPath = window.location.pathname;
         if (currentHtmlPath.includes('/scenes/html/')) {
-            return `../../${originalPath}`;
+            return `../../${originalPath}`; 
         }
-        return originalPath;
+        return originalPath; 
     }
 
     // determine which json to load based on the html filename
@@ -24,31 +70,41 @@ $(document).ready(function() {
         const sceneName = pageNameWithExtension.replace('.html', ''); 
         if (!sceneName) {
             console.error("Could not determine scene name from path:", currentHtmlPath);
-            return null;
+            return null; 
         }
+
         if (currentHtmlPath.includes('/scenes/html/')) {
-            return `../${sceneName}.json`;
+            return `../${sceneName}.json`; 
         } else {
-            return `scenes/${sceneName}.json`;
+            return `scenes/${sceneName}.json`; 
         }
     }
 
     //scene loader
     function loadScene(sceneFile) {
         if (!sceneFile) {
-            $('#dialog-text').text("Error: Could not determine scene file from URL.");
-            $('#speaker-name').hide();
-            $('#next-button').hide();
-            $('#choices-container').hide();
+            if (!window.location.pathname.endsWith('index.html') && !window.location.pathname.endsWith('/')) {
+                $('#dialog-text').text("Error: Could not determine scene file from URL.");
+                $('#speaker-name').hide();
+                $('#next-button').hide();
+                $('#choices-container').hide();
+            }
             return;
         }
 
         $.getJSON(sceneFile, function(data) {
-            currentSceneData = data; 
-            currentLine = 0; 
+            currentSceneData = data;
+            currentLine = 0;
             if (currentSceneData && Array.isArray(currentSceneData) && currentSceneData.length > 0) {
                 $('#dialog-interface').show();
-                displayLine(); 
+                displayLine();
+                if (currentSceneData[0].bgm && typeof AudioManager !== 'undefined') {
+                    AudioManager.playMusic(currentSceneData[0].bgm);
+                } else if (typeof AudioManager !== 'undefined') {
+                    if (AudioManager.bgmPlayer && !AudioManager.bgmPlayer.paused) {
+                        AudioManager.stopMusic();
+                    }
+                }
             } else {
                 $('#dialog-text').text("Error: Scene data is empty or not an array.");
                 $('#speaker-name').hide();
@@ -63,75 +119,92 @@ $(document).ready(function() {
                 errorMsg = "Error: Scene file not found: " + sceneFile;
             }
             $('#dialog-text').text(errorMsg);
-            $('#speaker-name').hide();
+            $('#speaker-name').hide(); 
             $('#next-button').hide(); 
-            $('#choices-container').hide();
+            $('#choices-container').hide(); 
         });
     }
     
     function navigateTo(nextScenePath) {
-        const currentHtmlPath = window.location.pathname;
-        if (currentHtmlPath.includes('/scenes/html/')) {
-            window.location.href = `../../${nextScenePath}`;
-        } else {
-            window.location.href = nextScenePath;
+        let newPath = nextScenePath;
+        if (window.location.pathname.includes("/docs/scenes/html/")) {
+            newPath = "../../" + nextScenePath;
         }
+        window.location.href = newPath;
     }
 
-    function endGame() {
-        $('#dialog-interface').hide();
-        $('#choices-container').empty().hide();
-        $('#characters').hide();
-        alert("The End"); 
+    function completeTypewriter() {
+        if (typewriterInterval) {
+            clearInterval(typewriterInterval);
+            typewriterInterval = null;
+            if (currentSceneData && currentSceneData[currentLine]) {
+                $('#dialog-text').text(currentSceneData[currentLine].dialog || "");
+            }
+            // Only re-enable choice buttons here. Next button's state is handled elsewhere or should remain enabled.
+            $('.choice-button').removeClass('disabled-while-typing').prop('disabled', false);
+        }
     }
 
     // Handle clicking the "next" button
     $('#next-button').on('click', function() {
-        let lineObject = currentSceneData[currentLine];
+        if (typewriterInterval) {
+            completeTypewriter();
+        }
+
+        let lineObject = currentSceneData[currentLine]; 
 
         if (lineObject && lineObject.target_id) {
-            // If the current line has a target_id, jump to that line
             const targetIndex = currentSceneData.findIndex(dialogLine => dialogLine.id === lineObject.target_id);
             if (targetIndex !== -1) {
                 currentLine = targetIndex;
                 displayLine();
             } else {
                 console.error("NEXT button: target_id not found:", lineObject.target_id);
-                currentLine++; // Fallback to sequential
-                if (currentSceneData && currentLine < currentSceneData.length) {
-                    displayLine();
-                } else {
-                    endGame();
-                }
+                currentLine++; 
+                if (currentSceneData && currentLine < currentSceneData.length) displayLine(); else endGame();
             }
         } else if (lineObject && lineObject.next_scene) {
-            // If the current line itself has a next_scene property, navigate immediately
             navigateTo(lineObject.next_scene);
         } else {
-            // No target_id or next_scene on the current line, so try to advance sequentially
-            currentLine++; // Advance to the next line index
+            currentLine++; 
             if (currentSceneData && currentLine < currentSceneData.length) {
                 displayLine();
             } else {
-                // Reached end of array, and the previously displayed line didn't have a next_scene or target_id
                 endGame();
             }
         }
     });
     
+    $('#dialog-box').on('click', function(e) {
+        if ($(e.target).is('#next-button') || $(e.target).is('.choice-button')) {
+            return;
+        }
+        if (typewriterInterval) {
+            completeTypewriter();
+        }
+        else if (currentSceneData && currentSceneData[currentLine] && !currentSceneData[currentLine].choices) {
+            $('#next-button').trigger('click');
+        }
+    });
+
     //dialog line display function
     function displayLine() {
+        if (typewriterInterval) { 
+            clearInterval(typewriterInterval);
+            typewriterInterval = null;
+        }
+
         if (!currentSceneData || currentLine < 0 || currentLine >= currentSceneData.length) {
             console.error("Error: Invalid currentLine index or no scene data. Index: " + currentLine);
             if (currentSceneData && currentLine >= currentSceneData.length) { 
                 const lastActualLine = currentSceneData[currentSceneData.length - 1];
                 if (lastActualLine && lastActualLine.next_scene) { 
                      navigateTo(lastActualLine.next_scene);
-                } else if (lastActualLine && lastActualLine.target_id) { // Check if last line had a target_id for NEXT
+                } else if (lastActualLine && lastActualLine.target_id) { 
                     const targetIndex = currentSceneData.findIndex(dialogLine => dialogLine.id === lastActualLine.target_id);
                     if (targetIndex !== -1) {
                         currentLine = targetIndex;
-                        displayLine();
+                        displayLine(); 
                     } else {
                         endGame();
                     }
@@ -140,7 +213,7 @@ $(document).ready(function() {
                      endGame();
                 }
             } else { 
-                $('#dialog-text').text("Error: Problem displaying line.");
+                $('#dialog-text').text("Error: Problem displaying line or scene ended.");
                 $('#next-button').hide();
                 $('#choices-container').empty().hide();
             }
@@ -148,6 +221,17 @@ $(document).ready(function() {
         }
 
         let line = currentSceneData[currentLine];
+
+        // Only disable choice buttons during typewriter; next-button remains active.
+        $('.choice-button').addClass('disabled-while-typing').prop('disabled', true);
+
+        if (line.hasOwnProperty('bgm') && typeof AudioManager !== 'undefined') { 
+            if (line.bgm === null || line.bgm === "") { 
+                AudioManager.stopMusic();
+            } else {
+                AudioManager.playMusic(line.bgm);
+            }
+        }
 
         if (line.background) {
             $('#background').css('background-image', `url(${getImagePath(line.background)})`);
@@ -159,21 +243,48 @@ $(document).ready(function() {
             $('#speaker-name').css('visibility', 'hidden');
         }
         
-        $('#dialog-text').text(line.dialog);
+        const dialogTextElement = $('#dialog-text');
+        const textToDisplay = line.dialog || "";
+        dialogTextElement.text(""); 
 
-        updateCharacter('#character-left', line.character_left);
-        updateCharacter('#character-right', line.character_right);
+        if (textToDisplay) {
+            let charIndex = 0;
+            const timePerChar = TYPEWRITER_DURATION / textToDisplay.length;
+            typewriterInterval = setInterval(function() {
+                dialogTextElement.text(textToDisplay.substring(0, charIndex + 1));
+                charIndex++;
+                if (charIndex >= textToDisplay.length) {
+                    completeTypewriter(); 
+                }
+            }, timePerChar);
+        } else {
+            completeTypewriter();
+        }
 
-        $('#character-left').removeClass('dimmed');
-        $('#character-right').removeClass('dimmed');
+        updateCharacter('#character-left', line.character_left, line.speaking_slot === 'left');
+        updateCharacter('#character-right', line.character_right, line.speaking_slot === 'right');
+
+        $('#character-left').removeClass('dimmed speaking');
+        $('#character-right').removeClass('dimmed speaking');
+
         const isLeftCharPresent = !!line.character_left;
         const isRightCharPresent = !!line.character_right;
-        if (isLeftCharPresent && isRightCharPresent) { 
-            if (line.speaking_slot === "left") {
-                $('#character-right').addClass('dimmed');
-            } else if (line.speaking_slot === "right") {
-                $('#character-left').addClass('dimmed');
-            }
+
+        if (line.speaking_slot === "left" && isLeftCharPresent) {
+            $('#character-left').addClass('speaking');
+            if (isRightCharPresent) $('#character-right').addClass('dimmed');
+        } else if (line.speaking_slot === "right" && isRightCharPresent) {
+            $('#character-right').addClass('speaking');
+            if (isLeftCharPresent) $('#character-left').addClass('dimmed');
+        } else { 
+            if (isLeftCharPresent) $('#character-left').addClass('dimmed');
+            if (isRightCharPresent) $('#character-right').addClass('dimmed');
+        }
+        if (isLeftCharPresent && !isRightCharPresent && line.speaker) {
+            $('#character-left').removeClass('dimmed').addClass('speaking');
+        }
+        if (isRightCharPresent && !isLeftCharPresent && line.speaker) {
+            $('#character-right').removeClass('dimmed').addClass('speaking');
         }
 
         const choicesContainer = $('#choices-container');
@@ -185,6 +296,8 @@ $(document).ready(function() {
             line.choices.forEach(choice => {
                 const choiceButton = $('<button class="choice-button"></button>').text(choice.text);
                 choiceButton.on('click', function() {
+                    if (typewriterInterval) completeTypewriter(); 
+
                     if (choice.target_id) {
                         const targetIndex = currentSceneData.findIndex(dialogLine => dialogLine.id === choice.target_id);
                         if (targetIndex !== -1) {
@@ -205,33 +318,48 @@ $(document).ready(function() {
                 });
                 choicesContainer.append(choiceButton);
             });
-            choicesContainer.show();
+            choicesContainer.show(); // This should now use display: flex from CSS
+            if (!typewriterInterval) {
+                 $('.choice-button').removeClass('disabled-while-typing').prop('disabled', false);
+            }
         } else {
-            // No choices on this line. Show "NEXT" button if:
-            // 1. This line itself has a target_id (to jump) OR
-            // 2. This line itself has a next_scene property OR
-            // 3. There is a next line in the array.
             if (line.target_id || line.next_scene || currentLine < currentSceneData.length - 1) {
                 nextButton.show();
+                // Ensure next-button is enabled if it's shown and typewriter isn't running or finished instantly
+                if (!typewriterInterval) {
+                    nextButton.removeClass('disabled-while-typing').prop('disabled', false);
+                }
             } else {
-                // This is the last line of the array AND it has no target_id or next_scene.
                 nextButton.hide(); 
             }
         }
     }
 
-    function updateCharacter(characterId, imagePath) {
+    function updateCharacter(characterId, imagePath, isSpeaking) {
+        const characterElement = $(characterId);
         if (imagePath) {
-            $(characterId).attr('src', getImagePath(imagePath)).css('opacity', 1);
+            characterElement.attr('src', getImagePath(imagePath)).css('opacity', 1);
         } else {
-            $(characterId).css('opacity', 0);
+            characterElement.css('opacity', 0).removeClass('speaking dimmed'); 
         }
+    }
+    
+    function endGame() {
+        $('#dialog-interface').hide();
+        $('#choices-container').empty().hide();
+        $('#characters').hide();
+        alert("The End (or scene finished without explicit next_scene)");
     }
 
     // initial setup
     $('#character-left').css('opacity', 0);
     $('#character-right').css('opacity', 0);
-    $('#choices-container').hide(); 
+    $('#choices-container').hide();
     const sceneFileToLoad = getSceneFile();
-    loadScene(sceneFileToLoad);
+
+    if ($('#title-screen-container').length) {
+        // Title screen logic is in titlescript.js
+    } else {
+        loadScene(sceneFileToLoad);
+    }
 });
