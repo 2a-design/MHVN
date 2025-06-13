@@ -308,17 +308,21 @@
 
 #click-to-attack-text {
     position: absolute;
-    top: 50%;
+    top: 40%; /* Adjusted to be slightly higher, above the Rathalos */
     left: 50%;
-    transform: translate(-50%, -150%); /* Position it a bit above true center */
+    transform: translate(-50%, -50%);
     color: white;
-    font-size: 3em;
+    font-size: 2.5em; /* Slightly smaller for balance */
     font-weight: bold;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
-    z-index: 60; /* Ensure it's above other elements */
-    pointer-events: none; /* So it doesn't interfere with clicks */
-    display: none; /* Initially hidden */
-    opacity: 0; /* Initially transparent for fade-in */
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.8), 0 0 5px rgba(0,0,0,0.5); /* Enhanced shadow */
+    z-index: 60; 
+    pointer-events: none; 
+    display: none; /* Initially hidden, JS will show it */
+    opacity: 0; /* Start transparent for fade-in */
+    padding: 10px 20px;
+    background-color: rgba(0,0,0,0.5);
+    border-radius: 8px;
+    transition: opacity 0.5s ease-out; /* For smooth fade out */
 }
 
 /* --- Victory Screen Styles --- */

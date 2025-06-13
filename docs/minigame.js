@@ -20,12 +20,20 @@ $(document).ready(function() {
     const damagePopupContainer = $('#damage-popup-container');
     const fireballContainer = $('#fireball-container');
     const screenFlashOverlay = $('#screen-flash-overlay');
+    const clickToAttackText = $('#click-to-attack-text'); // Added this line
+    let clickToAttackTimeout; // Added this line
 
     // --- Initialize ---
     questCompleteOverlay.hide();
     gameOverOverlay.hide();
     updateHealthBars();
     
+    // Show "Click to attack" text initially
+    clickToAttackText.show().animate({opacity: 1}, 500); // Fade in
+    clickToAttackTimeout = setTimeout(() => {
+        clickToAttackText.animate({opacity: 0}, 500, function() { $(this).hide(); });
+    }, 2500); // Start timeout (2s display + 0.5s fade out)
+
     // Add hitbox to dragon
     const hitbox = $('<div id="rath-hitbox"></div>');
     dragon.append(hitbox);
@@ -34,8 +42,15 @@ $(document).ready(function() {
     startDragonAnimation(); // Start dragon sprite animation
 
     // --- Event Handlers ---
-    $('#rath-hitbox').on('click', function(e) { // This should be #rath-hitbox
+    $('#rath-hitbox').on('click', function(e) { 
         if (gameEnded) return;
+
+        // Hide "Click to attack" text on first click and clear timeout
+        if (clickToAttackText.is(':visible')) {
+            clearTimeout(clickToAttackTimeout);
+            clickToAttackText.stop().animate({opacity: 0}, 300, function() { $(this).hide(); });
+        }
+
         enemyCurrentHealth -= damagePerClick;
         if (enemyCurrentHealth < 0) enemyCurrentHealth = 0;
         updateHealthBars();
